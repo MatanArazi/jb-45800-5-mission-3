@@ -1,0 +1,65 @@
+# replace all container names accroding to actual project
+services:
+  # docker run --name betterx-db -e=MYSQL_ALLOW_EMPTY_PASSWORD=1 -e=MYSQL_DATABASE=college -e=MYSQL_TCP_PORT=3306 -p 3306:3306 -d shaharsol/betterx-db:1.0
+  database:
+    container_name: jb-45800-5-mission-3-database
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+      - MYSQL_DATABASE=meetings_db
+      - MYSQL_TCP_PORT=3306
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    build: ./database
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+      
+  # docker run --name betterx-backend-p 3000:3000 -d shaharsol/betterx-backend:3.0
+  backend:
+    container_name: jb-45800-5-mission-3-backend
+    ports:
+      - 3010:3000
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.compose
+    environment:
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASS=
+      - DB_NAME=meetings_db
+    depends_on:
+      database:
+        condition: service_healthy
+  
+  # docker run --name betterx-front -p 6123:80 -d shaharsol/betterx-front:2.0
+  frontend:
+    container_name: jb-45800-5-mission-3-frontend
+    ports:
+      - 6124:80
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.compose
+  mysql:
+    container_name: jb-45800-5-mission-3-mysql
+    image: mysql:8
+    # keep this helper container alive so you can exec into it
+    entrypoint: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - database
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: jb-45800-5-mission-3-phpmyadmin
+    environment:
+      - PMA_HOST=database
+      - PMA_USER=root
+      - PMA_PASSWORD=
+    ports:
+      - 8080:80
+    depends_on:
+      - database

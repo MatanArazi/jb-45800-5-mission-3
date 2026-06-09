@@ -1,0 +1,22 @@
+.Header {
+	background: #1f2937;
+	color: white;
+	padding: 10px 16px;
+}
+
+.Header nav {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+
+.navlink {
+	color: #cbd5e1;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.navlink.active {
+	color: #fff;
+	text-decoration: underline;
+}
