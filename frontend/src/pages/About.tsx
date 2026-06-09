@@ -3,7 +3,7 @@ export default function About(){
         <div>
             <h2>About</h2>
             <p>This system was built as the mission project — a small meetings manager using Node/TypeScript and React.</p>
-            <p>Developer: student</p>
+            <p>Developer: Matan Arazi</p>
         </div>
     )
 }

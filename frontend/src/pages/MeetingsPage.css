@@ -32,11 +32,17 @@
 }
 
 .card.future {
-  background: #fff8e1;
+  /* warmer orange for upcoming meetings */
+  background: #ffcc80;
+  color: #4e2b00;
+  border: 1px solid #ff9800;
 }
 
 .card.past {
-  background: #e8f5e9;
+  /* stronger green for clearly past meetings */
+  background: #66bb6a;
+  color: #0b3b12;
+  border: 1px solid #4caf50;
 }
 
 .card-top {
